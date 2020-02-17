@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@root/*": [
+        "./*"
+      ],
+      "@helpers/*": [
+        "src/helpers/*"
+      ],
+      "@middleware/*": [
+        "src/middleware/*"
+      ],
+      "@controllers/*": [
+        "src/controllers/*"
+      ],
+      "@repositories/*": [
+        "src/repositories/*"
+      ],
+    }
+  }
+}
