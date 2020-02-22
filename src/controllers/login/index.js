@@ -1,24 +1,10 @@
-const tokenHelper = require('@helpers/token');
+const jwtHelper = require('@helpers/jwt');
 
-module.exports.index = (req, res) => {
-  const {
-    body: {
-      hostname,
-    },
-    headers: {
-      authorization,
-    },
-  } = req;
-  console.log('Test if user is authed');
-  console.log('hostname:', hostname);
-  console.log('authorization:', authorization);
-
-  return res
-    .status(401)
-    .json({
-      error: 'You must be logged in to publish packages.',
-    });
-};
+module.exports.index = (req, res) => res
+  .status(401)
+  .json({
+    error: 'You must be logged in to publish packages.',
+  });
 
 module.exports.authenticate = async (req, res) => {
   const {
@@ -26,25 +12,20 @@ module.exports.authenticate = async (req, res) => {
       _id,
       name,
       password,
-      email,
       type, // Unsure
       roles, // Unsure
       date,
     },
-    headers: {
-      authorization,
-    }, // Check node version and npm version
   } = req;
 
-  console.log('authorization:', authorization);
-
-  if (name === 'admin' && password === '123123') {
-    const token = tokenHelper.createToken({
-      email,
+  if (name && password) {
+    const token = jwtHelper.createToken({
       type,
       roles,
       date,
+      name,
     });
+
     return res
       .status(201)
       .json({

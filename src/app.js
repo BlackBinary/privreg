@@ -2,6 +2,9 @@ const awsServerlessExpressMiddleware = require('aws-serverless-express/middlewar
 const bodyParser = require('body-parser');
 const express = require('express');
 
+const agentMiddleware = require('@middleware/agent');
+const authenticationMiddleware = require('@middleware/authentication');
+
 const app = express();
 const router = express.Router();
 
@@ -9,19 +12,23 @@ router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(awsServerlessExpressMiddleware.eventContext());
 
-router.use((req, res, next) => {
-  console.log('Time:    ', Date.now());
-  console.log('Headers: ', req.headers);
-  next();
-});
+// router.use((req, res, next) => {
+//   console.log('Time:    ', Date.now());
+//   console.log('Headers: ', req.headers);
+//   next();
+// });
+
+router.use(agentMiddleware);
+
+router.all('/proxy/*', require('@controllers/mitm').index);
 
 // Package routes
 router.get(
-  '/:packagename',
+  '/:name',
   require('@controllers/main').index,
 );
 router.put(
-  '/:packagename',
+  '/:name',
   require('@controllers/main').publish,
 );
 
@@ -42,6 +49,15 @@ router.put(
 );
 
 // User routes
+router.use(authenticationMiddleware);
+router.get(
+  '/-/npm/v1/user',
+  require('@controllers/user').index,
+);
+router.post(
+  '/-/npm/v1/user',
+  require('@controllers/user').update,
+);
 router.get(
   '/-/whoami',
   require('@controllers/user').whoami,
