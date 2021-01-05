@@ -9,7 +9,7 @@
     "test": "echo \"No test specified.\" && exit"
   },
   "devDependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "eslint": "^6.1.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-import-resolver-alias": "^1.1.2",
