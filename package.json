@@ -24,7 +24,7 @@
     "@repositories": "src/repositories/"
   },
   "dependencies": {
-    "aws-sdk": "^2.619.0",
+    "aws-sdk": "^2.814.0",
     "aws-serverless-express": "^3.3.6",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
